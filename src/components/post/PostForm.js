@@ -4,7 +4,6 @@ import { useParams, useHistory } from 'react-router-dom'
 
 export const PostForm = () => {
     // Use the required context providers for data
-    const [locations, setLocations] = useState([])
     const { postId } = useParams()
     // Component state
     const [post, setPost] = useState({})
@@ -30,39 +29,35 @@ export const PostForm = () => {
                 setPost(res)
             })
         }
-        getLocations().then(locationsData => setLocations(locationsData))
-    }, [])
+    })
+
 
     const constructNewPost = () => {
-        const locationId = parseInt(post.locationId)
 
-        if (locationId === 0) {
-            window.alert("Please select a location")
+        if (editMode) {
+            // PUT
+            updatePost({
+                id: post.id,
+                title: post.title,
+                user: post.user_id,
+                category_id: post.category_id,
+                publication_date: post.publication_date,
+                content: post.content
+            })
+                .then(() => history.push("/posts"))
         } else {
-            if (editMode) {
-                // PUT
-                updatePost({
-                    id: post.id,
-                    title: post.title,
-                    user: post.user_id,
-                    category_id: post.category_id,
-                    publication_date: post.publication_date,
-                    content: post.content
-                })
-                    .then(() => history.push("/posts"))
-            } else {
-                // POST
-                addPost({
-                    id: post.id,
-                    title: post.title,
-                    user: post.user_id,
-                    category_id: post.category_id,
-                    publication_date: post.publication_date,
-                    content: post.content
-                })
-                    .then(() => history.push("/posts"))
-            }
+            // POST
+            addPost({
+                id: post.id,
+                title: post.title,
+                user: post.user_id,
+                category_id: post.category_id,
+                publication_date: post.publication_date,
+                content: post.content
+            })
+                .then(() => history.push("/posts"))
         }
+
     }
 
     return (
@@ -128,10 +123,30 @@ export const PostForm = () => {
             </fieldset> */}
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="publication_date">Author: </label>
-                    <input type="datetime" name="publication_date" required className="form-control"
+                    <label htmlFor="publication_date">Category: </label>
+                    <input type="text" name="category_id" required className="form-control"
+                        placeholder="Category"
+                        defaultValue={post.category_id}
+                        onChange={handleControlledInputChange}
+                    />
+                </div>
+            </fieldset>
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="publication_date">Date posted: </label>
+                    <input type="date" name="publication_date" required className="form-control"
                         placeholder="Post date"
                         defaultValue={post.user_id}
+                        onChange={handleControlledInputChange}
+                    />
+                </div>
+            </fieldset>
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="content">Post Content: </label>
+                    <input type="text" name="content" required className="form-control"
+                        placeholder="Write your post here!"
+                        defaultValue={post.content}
                         onChange={handleControlledInputChange}
                     />
                 </div>
@@ -142,7 +157,7 @@ export const PostForm = () => {
                     constructNewPost()
                 }}
                 className="btn btn-primary">
-                {editMode ? "Save Updates" : "Make Reservation"}
+                {editMode ? "Save Updates" : "Save Post"}
             </button>
         </form>
     )
