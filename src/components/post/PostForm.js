@@ -39,7 +39,7 @@ export const PostForm = () => {
             updatePost({
                 id: post.id,
                 title: post.title,
-                user: post.user_id,
+                user_id: post.user_id,
                 category_id: post.category_id,
                 publication_date: post.publication_date,
                 content: post.content
@@ -50,7 +50,7 @@ export const PostForm = () => {
             addPost({
                 id: post.id,
                 title: post.title,
-                user: post.user_id,
+                user_id: post.user_id,
                 category_id: post.category_id,
                 publication_date: post.publication_date,
                 content: post.content
@@ -66,7 +66,7 @@ export const PostForm = () => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="name">Post title: </label>
-                    <input type="text" name="name" required autoFocus className="form-control"
+                    <input type="text" name="title" required autoFocus className="form-control"
                         placeholder="Post title"
                         defaultValue={post.title}
                         onChange={handleControlledInputChange}
@@ -76,7 +76,7 @@ export const PostForm = () => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="breed">Author: </label>
-                    <input type="text" name="author" required className="form-control"
+                    <input type="text" name="user_id" required className="form-control"
                         placeholder="Post author"
                         defaultValue={post.user_id}
                         onChange={handleControlledInputChange}
@@ -136,7 +136,7 @@ export const PostForm = () => {
                     <label htmlFor="publication_date">Date posted: </label>
                     <input type="date" name="publication_date" required className="form-control"
                         placeholder="Post date"
-                        defaultValue={post.user_id}
+                        defaultValue={post.publication_date}
                         onChange={handleControlledInputChange}
                     />
                 </div>
